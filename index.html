@@ -1,0 +1,391 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google" content="notranslate">
+<title>Mijn koffer klaarmaken</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Caveat:wght@600&family=Nunito:wght@400;600;800&display=swap">
+<style>
+/* Layout: werkblad met drie secties (Toiletartikelen, Geld, Andere), tekeningenkaarten in een raster, vaste balk onderaan met voortgang en Nakijken. */
+:root {
+  --f-display: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
+  --f-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-pen: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+
+  --bg: #f1f5ec;
+  --paper: #ffffff;
+  --ink: #1f2a37;
+  --muted: #5a6a57;
+  --line: #ccd7c3;
+  --green: #5f8f45;
+  --purple: #5a3d8f;
+  --pen: #1d3fa6;
+  --tile: #f7f8f5;
+  --ok: #2b8a4b;
+  --ok-bg: #e2f3e5;
+  --bad: #c0392b;
+  --bad-bg: #fbe4e1;
+  --near: #a8680f;
+  --near-bg: #fbefd4;
+  --cat-toilet: #5f8f45;
+  --cat-geld: #c98a1b;
+  --cat-andere: #5a3d8f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #13181a; --paper: #1d2427; --ink: #e8eee6; --muted: #a3b2a0; --line: #36443a;
+    --green: #9cc47f; --purple: #bba3f2; --pen: #93b2ff;
+    --ok: #6ccb8a; --ok-bg: #1a3324; --bad: #f28d80; --bad-bg: #3a1f1c; --near: #ebbb6c; --near-bg: #3a2e17;
+    --cat-toilet: #9cc47f; --cat-geld: #e8b867; --cat-andere: #bba3f2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #13181a; --paper: #1d2427; --ink: #e8eee6; --muted: #a3b2a0; --line: #36443a;
+  --green: #9cc47f; --purple: #bba3f2; --pen: #93b2ff;
+  --ok: #6ccb8a; --ok-bg: #1a3324; --bad: #f28d80; --bad-bg: #3a1f1c; --near: #ebbb6c; --near-bg: #3a2e17;
+  --cat-toilet: #9cc47f; --cat-geld: #e8b867; --cat-andere: #bba3f2;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.45;
+  padding-inline: 16px; padding-block: 20px 120px;
+}
+.wrap { max-width: 980px; margin-inline: auto; display: flex; flex-direction: column; gap: 22px; }
+
+header { display: flex; flex-direction: column; gap: 10px; }
+.tab {
+  align-self: flex-start; background: var(--purple); color: #fff; font-weight: 800; font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; padding: 5px 12px; border-radius: 4px 14px 4px 14px;
+}
+:root[data-theme="dark"] .tab { color: #1d1530; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tab { color: #1d1530; } }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; text-wrap: balance; }
+.lead { margin: 0; color: var(--muted); max-width: 62ch; }
+.lead b { color: var(--ink); }
+
+.tools { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.switch { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; min-height: 40px; }
+.switch input { width: 20px; height: 20px; accent-color: var(--purple); margin: 0; }
+.btn {
+  font: inherit; font-weight: 800; border: 2px solid var(--ink); background: transparent; color: var(--ink);
+  border-radius: 999px; padding: 8px 16px; min-height: 40px; cursor: pointer;
+}
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.btn.primary { background: var(--purple); border-color: var(--purple); color: #fff; }
+:root[data-theme="dark"] .btn.primary { color: #1d1530; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #1d1530; } }
+.btn:focus-visible, input:focus-visible, .hintbtn:focus-visible { outline: 3px solid var(--purple); outline-offset: 2px; }
+
+#banner { border-radius: 14px; padding: 14px 16px; background: var(--paper); border: 2px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+#banner[hidden] { display: none !important; }
+#banner .score { font-family: var(--f-display); font-weight: 800; font-size: 28px; line-height: 1.1; }
+#banner p { margin: 0; color: var(--muted); }
+#banner .row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+section.group { display: flex; flex-direction: column; gap: 12px; }
+.gh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding-bottom: 8px; border-bottom: 3px solid var(--cat); }
+.gh h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: 22px; color: var(--cat); }
+.gh .fr { color: var(--muted); font-weight: 600; }
+.gh .cnt { margin-left: auto; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+
+.card { background: var(--paper); border: 2px solid var(--line); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.card.ok { border-color: var(--ok); background: var(--ok-bg); }
+.card.near { border-color: var(--near); background: var(--near-bg); }
+.card.wrong, .card.article { border-color: var(--bad); background: var(--bad-bg); }
+.top { display: flex; align-items: center; gap: 8px; }
+.box { width: 18px; height: 18px; border: 2px solid var(--muted); border-radius: 3px; display: grid; place-items: center; flex: none; }
+.card.ok .box { background: var(--ok); border-color: var(--ok); }
+.card.ok .box::after { content: ""; width: 9px; height: 5px; border-left: 2.5px solid #fff; border-bottom: 2.5px solid #fff; transform: translateY(-1px) rotate(-45deg); }
+.num { font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hintbtn { margin-left: auto; font: inherit; font-size: 13px; font-weight: 800; background: transparent; color: var(--purple); border: 0; padding: 6px 8px; min-height: 32px; border-radius: 8px; cursor: pointer; }
+.hintbtn:hover { text-decoration: underline; }
+.tile { background: var(--tile); border: 1px solid var(--line); border-radius: 10px; aspect-ratio: 1 / 1; max-width: 100%; display: grid; place-items: center; padding: 6px; }
+.tile svg { width: 100%; height: 100%; display: block; }
+input.w {
+  width: 100%; min-width: 0; font-family: var(--f-pen); font-weight: 600; font-size: 26px; line-height: 1.2; color: var(--pen);
+  background: transparent; border: 0; border-bottom: 2px solid var(--muted); border-radius: 0; padding: 2px 2px 0;
+}
+input.w::placeholder { color: var(--line); }
+input.w:focus { border-bottom-color: var(--purple); outline: none; }
+input.w:focus-visible { outline: none; border-bottom-width: 3px; }
+.fb { margin: 0; min-height: 1.3em; font-size: 14px; font-weight: 800; }
+.card.ok .fb { color: var(--ok); }
+.card.near .fb { color: var(--near); }
+.card.wrong .fb, .card.article .fb { color: var(--bad); }
+.hint { margin: 0; font-size: 14px; color: var(--muted); background: var(--bg); border-radius: 8px; padding: 6px 8px; }
+.hint[hidden] { display: none !important; }
+.hint b { color: var(--ink); }
+
+.bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--paper); border-top: 2px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; }
+.bar .in { max-width: 980px; margin-inline: auto; display: flex; align-items: center; gap: 14px; }
+.prog { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.prog .t { font-weight: 800; font-size: 14px; font-variant-numeric: tabular-nums; }
+.track { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.fill { height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .25s ease; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+@media (max-width: 420px) { .grid { gap: 10px; } input.w { font-size: 24px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tab">Woordenschat · Les 2</span>
+    <h1>Mijn koffer klaarmaken</h1>
+    <p class="lead"><b>Wat zie je?</b> Schrijf het Nederlandse woord onder elke tekening. Tik op <b>Hint</b> als je het Franse woord of de eerste letter nodig hebt. Druk onderaan op <b>Nakijken</b> als je klaar bent.</p>
+    <div class="tools">
+      <label class="switch" for="strict"><input type="checkbox" id="strict"> Schrijf ook <i>de</i> of <i>het</i></label>
+      <button class="btn" id="mix" type="button" aria-pressed="false">Door elkaar</button>
+    </div>
+  </header>
+
+  <div id="banner" hidden role="status" aria-live="polite"></div>
+  <main id="list" class="wrap" style="gap:26px"></main>
+</div>
+
+<div class="bar">
+  <div class="in">
+    <div class="prog">
+      <span class="t" id="ptext">0 / 20 ingevuld</span>
+      <div class="track" aria-hidden="true"><div class="fill" id="pfill"></div></div>
+    </div>
+    <button class="btn primary" id="check" type="button">Nakijken</button>
+  </div>
+</div>
+
+<script>
+const rays = (cx, cy, r1, r2, n, col, w) => Array.from({ length: n }, (_, i) => {
+  const a = i * 2 * Math.PI / n;
+  return `<line x1="${(cx + Math.cos(a) * r1).toFixed(1)}" y1="${(cy + Math.sin(a) * r1).toFixed(1)}" x2="${(cx + Math.cos(a) * r2).toFixed(1)}" y2="${(cy + Math.sin(a) * r2).toFixed(1)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+}).join('');
+
+const combTeeth = Array.from({ length: 12 }, (_, i) => `<rect x="${14 + i * 6.4}" y="42" width="3.4" height="28" rx="1.7" fill="#b86a22"/>`).join('');
+const brushDots = (() => {
+  let s = '';
+  for (let y = 18; y <= 54; y += 7) for (let x = 36; x <= 64; x += 7) {
+    if (((x - 50) / 17) ** 2 + ((y - 36) / 22) ** 2 < 1) s += `<circle cx="${x}" cy="${y}" r="1.9" fill="#b3b8f2"/>`;
+  }
+  return s;
+})();
+const toothBristles = Array.from({ length: 6 }, (_, i) => `<rect x="${64 + i * 4}" y="30" width="2.6" height="13" rx="1.3" fill="#e5557d"/>`).join('');
+
+const WORDS = [
+  { id: 'oorstokje', art: 'het', nl: 'oorstokje', fr: 'le coton-tige', cat: 'toilet',
+    svg: `<g transform="rotate(-35 50 50)"><rect x="18" y="47" width="64" height="6" rx="3" fill="#d8c7a3"/><ellipse cx="20" cy="50" rx="11" ry="7.5" fill="#fff" stroke="#b9bec6" stroke-width="2"/><ellipse cx="80" cy="50" rx="11" ry="7.5" fill="#fff" stroke="#b9bec6" stroke-width="2"/></g>` },
+  { id: 'washandje', art: 'het', nl: 'washandje', fr: 'le gant de toilette', cat: 'toilet',
+    svg: `<path d="M30 84V42Q30 28 43 28H55Q67 28 67 40V47L79 43Q88 41 88 50Q88 57 79 60L67 64V84Q67 88 63 88H34Q30 88 30 84Z" fill="#7fcfcf" stroke="#3f9797" stroke-width="2.5" stroke-linejoin="round"/><path d="M30 76H67" stroke="#3f9797" stroke-width="2" stroke-dasharray="3 3"/><circle cx="42" cy="44" r="1.8" fill="#fff" opacity=".8"/><circle cx="54" cy="52" r="1.8" fill="#fff" opacity=".8"/><circle cx="44" cy="60" r="1.8" fill="#fff" opacity=".8"/><circle cx="56" cy="67" r="1.8" fill="#fff" opacity=".8"/><circle cx="40" cy="70" r="1.8" fill="#fff" opacity=".8"/>` },
+  { id: 'badhanddoek', art: 'de', nl: 'badhanddoek', fr: "l'essuie / la serviette de bain", cat: 'toilet',
+    svg: `<rect x="12" y="26" width="76" height="48" rx="5" fill="#4f86d6" stroke="#2f5fa8" stroke-width="2.5"/><rect x="12" y="38" width="76" height="6" fill="#fff" opacity=".85"/><rect x="12" y="50" width="76" height="6" fill="#fff" opacity=".85"/><path d="M15 74v8M25 74v8M35 74v8M45 74v8M55 74v8M65 74v8M75 74v8M85 74v8" stroke="#2f5fa8" stroke-width="2.5" stroke-linecap="round"/>` },
+  { id: 'handdoek', art: 'de', nl: 'handdoek', fr: "l'essuie-main", cat: 'toilet',
+    svg: `<circle cx="50" cy="16" r="7" fill="none" stroke="#777" stroke-width="3"/><rect x="31" y="22" width="38" height="58" rx="4" fill="#f08bb0" stroke="#c4568a" stroke-width="2.5"/><rect x="31" y="22" width="38" height="7" rx="3" fill="#c4568a" opacity=".5"/><rect x="31" y="58" width="38" height="6" fill="#fff" opacity=".85"/><path d="M36 80v7M44 80v7M52 80v7M60 80v7" stroke="#c4568a" stroke-width="2.5" stroke-linecap="round"/>` },
+  { id: 'kam', art: 'de', nl: 'kam', fr: 'le peigne', cat: 'toilet',
+    svg: `<rect x="10" y="26" width="80" height="16" rx="6" fill="#b86a22" stroke="#7d4413" stroke-width="2"/>${combTeeth}` },
+  { id: 'borstel', art: 'de', nl: 'borstel', fr: 'la brosse', cat: 'toilet',
+    svg: `<rect x="43" y="62" width="14" height="30" rx="7" fill="#7b86d8" stroke="#2c2e6b" stroke-width="2.5"/><ellipse cx="50" cy="36" rx="22" ry="28" fill="#47498f" stroke="#2c2e6b" stroke-width="2.5"/>${brushDots}` },
+  { id: 'tandenborstel', art: 'de', nl: 'tandenborstel', fr: 'la brosse à dents', cat: 'toilet',
+    svg: `<g transform="rotate(-30 50 50)"><rect x="10" y="45" width="58" height="10" rx="5" fill="#25a8a0" stroke="#17766f" stroke-width="2"/><rect x="62" y="42" width="26" height="16" rx="4" fill="#25a8a0" stroke="#17766f" stroke-width="2"/>${toothBristles}</g>` },
+  { id: 'tandpasta', art: 'de', nl: 'tandpasta', fr: 'le dentifrice', cat: 'toilet',
+    svg: `<g transform="rotate(-20 50 50)"><rect x="8" y="38" width="10" height="24" rx="2" fill="#c7d2de" stroke="#8795a6" stroke-width="2"/><path d="M18 38H66V62H18Z" fill="#fff" stroke="#3b7fc4" stroke-width="2.5"/><rect x="18" y="46" width="48" height="8" fill="#3b7fc4"/><path d="M66 42H72L78 44V56L72 58H66Z" fill="#3b7fc4"/><rect x="78" y="45" width="10" height="10" rx="2" fill="#2a5f96"/></g>` },
+  { id: 'zeep', art: 'de', nl: 'zeep', fr: 'le savon', cat: 'toilet',
+    svg: `<rect x="16" y="40" width="68" height="34" rx="14" fill="#f4b3c7" stroke="#d17a98" stroke-width="2.5"/><rect x="24" y="47" width="30" height="6" rx="3" fill="#fff" opacity=".6"/><circle cx="72" cy="26" r="8" fill="#e8f4fb" stroke="#7fb6d6" stroke-width="2"/><circle cx="54" cy="20" r="5" fill="#e8f4fb" stroke="#7fb6d6" stroke-width="2"/><circle cx="87" cy="38" r="4" fill="#e8f4fb" stroke="#7fb6d6" stroke-width="2"/>` },
+  { id: 'shampoo', art: 'de', nl: 'shampoo', fr: 'le shampoing', cat: 'toilet',
+    svg: `<rect x="40" y="13" width="26" height="7" rx="3" fill="#6a4aa8"/><rect x="29" y="14" width="13" height="5" rx="2.5" fill="#6a4aa8"/><rect x="48" y="20" width="10" height="11" fill="#8c6fd0"/><rect x="30" y="30" width="40" height="58" rx="9" fill="#f2b84b" stroke="#b9831a" stroke-width="2.5"/><rect x="35" y="46" width="30" height="28" rx="5" fill="#fff"/><path d="M38 60q4-8 8 0t8 0t8 0" fill="none" stroke="#6a4aa8" stroke-width="2.5" stroke-linecap="round"/>` },
+  { id: 'douchegel', art: 'de', nl: 'douchegel', fr: 'le gel douche', cat: 'toilet',
+    svg: `<rect x="38" y="13" width="24" height="19" rx="5" fill="#1f6f8b"/><rect x="34" y="30" width="32" height="58" rx="10" fill="#45b8d8" stroke="#1f7f9e" stroke-width="2.5"/><rect x="38" y="44" width="24" height="30" rx="5" fill="#fff"/><path d="M47 49q4 6 4 9a4 4 0 0 1-8 0q0-3 4-9z" fill="#45b8d8"/><path d="M56 59q3 4 3 6.5a3 3 0 0 1-6 0q0-2.5 3-6.5z" fill="#45b8d8"/>` },
+
+  { id: 'cashgeld', art: 'het', nl: 'cash geld', alt: ['cash', 'contant geld'], fr: "l'argent liquide", cat: 'geld',
+    svg: `<g transform="rotate(8 50 50)"><rect x="18" y="18" width="62" height="34" rx="4" fill="#b7e0b7" stroke="#4c9a4c" stroke-width="2.5"/></g><g transform="rotate(-8 50 50)"><rect x="12" y="28" width="62" height="34" rx="4" fill="#8fcf8f" stroke="#4c9a4c" stroke-width="2.5"/><text x="43" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#3a7d3a">€</text></g><circle cx="72" cy="72" r="13" fill="#f3c640" stroke="#b58a12" stroke-width="2.5"/><circle cx="72" cy="72" r="8" fill="none" stroke="#b58a12" stroke-width="2"/><circle cx="48" cy="80" r="9" fill="#f3c640" stroke="#b58a12" stroke-width="2.5"/>` },
+  { id: 'bankkaart', art: 'de', nl: 'bankkaart', fr: 'la carte de banque', cat: 'geld',
+    svg: `<rect x="10" y="26" width="80" height="50" rx="7" fill="#3a5bb0" stroke="#243c7e" stroke-width="2.5"/><rect x="10" y="36" width="80" height="9" fill="#1e2b55"/><rect x="18" y="52" width="16" height="12" rx="2.5" fill="#e8c35a" stroke="#a88426" stroke-width="1.5"/><rect x="40" y="56" width="32" height="4" rx="2" fill="#cfd8f2"/><rect x="40" y="64" width="20" height="4" rx="2" fill="#cfd8f2"/>` },
+  { id: 'lokalemunt', art: 'de', nl: 'lokale munt', fr: 'la monnaie locale', cat: 'geld',
+    svg: `<circle cx="50" cy="50" r="34" fill="#f3c640" stroke="#b58a12" stroke-width="3"/><circle cx="50" cy="50" r="26" fill="none" stroke="#b58a12" stroke-width="2.5"/><g transform="rotate(45 50 50)">${rays(50, 50, 8, 14, 4, '#8a6508', 3)}</g><circle cx="50" cy="50" r="6" fill="none" stroke="#8a6508" stroke-width="3"/>` },
+
+  { id: 'muggen', art: 'het', nl: 'middeltje tegen muggen', alt: ['muggenmiddel', 'middeltje tegen de muggen'], fr: 'le produit antimoustique', cat: 'andere',
+    svg: `<rect x="34" y="18" width="26" height="16" rx="4" fill="#1d6b3a"/><rect x="44" y="10" width="8" height="8" rx="2" fill="#555"/><circle cx="37" cy="12" r="1.8" fill="#9aa5b1"/><circle cx="31" cy="8" r="1.8" fill="#9aa5b1"/><circle cx="27" cy="14" r="1.8" fill="#9aa5b1"/><rect x="30" y="34" width="34" height="54" rx="7" fill="#2f9e5b" stroke="#1d6b3a" stroke-width="2.5"/><circle cx="47" cy="61" r="15" fill="#fff" stroke="#d6322b" stroke-width="3"/><ellipse cx="47" cy="62" rx="6.5" ry="3" fill="#333"/><ellipse cx="44" cy="57" rx="4" ry="2" fill="#bbb" transform="rotate(-30 44 57)"/><ellipse cx="50" cy="57" rx="4" ry="2" fill="#bbb" transform="rotate(30 50 57)"/><path d="M42 65l-3 4M47 65v5M52 65l3 4M54 62l5-1" stroke="#333" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M37 52L57 72" stroke="#d6322b" stroke-width="3.5" stroke-linecap="round"/>` },
+  { id: 'hoofdkussen', art: 'het', nl: 'hoofdkussen', alt: ['kussen'], fr: "l'oreiller", cat: 'andere',
+    svg: `<path d="M14 32Q50 18 86 32Q93 50 86 68Q50 82 14 68Q7 50 14 32Z" fill="#f7d154" stroke="#c99a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 38Q50 29 76 38Q81 50 76 62Q50 71 24 62Q19 50 24 38Z" fill="none" stroke="#c99a14" stroke-width="2" stroke-dasharray="4 4"/><circle cx="14" cy="32" r="2.5" fill="#c99a14"/><circle cx="86" cy="32" r="2.5" fill="#c99a14"/><circle cx="14" cy="68" r="2.5" fill="#c99a14"/><circle cx="86" cy="68" r="2.5" fill="#c99a14"/>` },
+  { id: 'zonnecreme', art: 'de', nl: 'zonnecrème', alt: ['zonnecreme'], fr: 'la crème solaire', cat: 'andere',
+    svg: `<rect x="38" y="15" width="24" height="19" rx="4" fill="#e0452a"/><rect x="30" y="33" width="40" height="55" rx="10" fill="#ff9a3c" stroke="#c2610d" stroke-width="2.5"/><circle cx="50" cy="62" r="8" fill="#ffe066"/>${rays(50, 62, 11, 16, 10, '#ffe066', 2.5)}` },
+  { id: 'lader', art: 'de', nl: 'lader', alt: ['oplader'], fr: 'le chargeur', cat: 'andere',
+    svg: `<rect x="8" y="44" width="8" height="5" rx="1" fill="#777"/><rect x="8" y="55" width="8" height="5" rx="1" fill="#777"/><rect x="16" y="38" width="26" height="28" rx="5" fill="#fff" stroke="#444" stroke-width="2.5"/><path d="M42 52C60 52 52 78 68 78" fill="none" stroke="#333" stroke-width="3.5" stroke-linecap="round"/><rect x="66" y="71" width="16" height="14" rx="2" fill="#555"/><rect x="82" y="74" width="8" height="8" rx="1.5" fill="#aab"/>` },
+  { id: 'drinkbus', art: 'de', nl: 'drinkbus', alt: ['drinkfles'], fr: 'la gourde', cat: 'andere',
+    svg: `<path d="M61 20h9a4 4 0 0 1 4 4v6" fill="none" stroke="#27506b" stroke-width="3" stroke-linecap="round"/><rect x="39" y="12" width="22" height="16" rx="4" fill="#27506b"/><rect x="34" y="28" width="32" height="60" rx="10" fill="#3aa0d8" stroke="#1f6c9b" stroke-width="2.5"/><rect x="34" y="50" width="32" height="12" fill="#fff" opacity=".85"/><rect x="39" y="34" width="4" height="46" rx="2" fill="#fff" opacity=".4"/>` },
+  { id: 'slaapzak', art: 'de', nl: 'slaapzak', fr: 'le sac de couchage', cat: 'andere',
+    svg: `<g transform="rotate(-30 50 52)"><path d="M10 52Q10 44 24 40H70Q90 36 92 52Q90 68 70 64H24Q10 60 10 52Z" fill="#e8743b" stroke="#a9441a" stroke-width="2.5" stroke-linejoin="round"/><path d="M30 41V63M46 40V64M58 40V64" stroke="#a9441a" stroke-width="1.6" opacity=".6"/><path d="M72 40Q84 42 86 52Q84 62 72 64" fill="#7a3b1f" opacity=".85"/><path d="M16 52H70" stroke="#fff" stroke-width="2" stroke-dasharray="4 3"/></g>` }
+];
+
+const CATS = [
+  { key: 'toilet', nl: 'Toiletartikelen', fr: 'Articles de toilette' },
+  { key: 'geld', nl: 'Geld', fr: 'Argent' },
+  { key: 'andere', nl: 'Andere', fr: 'Autres' }
+];
+
+const state = { vals: {}, res: {}, hints: {}, checked: false, mixed: false, order: WORDS.map(w => w.id) };
+const $ = id => document.getElementById(id);
+const byId = Object.fromEntries(WORDS.map(w => [w.id, w]));
+
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z\s]/g, ' ').replace(/\s+/g, ' ').trim();
+function lev(a, b) {
+  const m = a.length, n = b.length, d = Array.from({ length: m + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[m][n];
+}
+function judge(w, raw, strict) {
+  const v = norm(raw || '');
+  if (!v) return 'empty';
+  let art = null, body = v;
+  const m = v.match(/^(de|het|een)\s+(.+)$/);
+  if (m) { art = m[1]; body = m[2]; }
+  const key = body.replace(/\s+/g, '');
+  const targets = [w.nl, ...(w.alt || [])].map(t => norm(t).replace(/\s+/g, ''));
+  if (targets.includes(key)) return (strict && art !== w.art) ? 'article' : 'ok';
+  if (key.length >= 4 && targets.some(t => lev(key, t) <= 1)) return 'near';
+  return 'wrong';
+}
+
+function cardHTML(w, n) {
+  return `<article class="card" id="c-${w.id}" data-id="${w.id}">
+    <div class="top"><span class="box" aria-hidden="true"></span><span class="num">${n}</span>
+      <button class="hintbtn" type="button" data-hint="${w.id}" aria-expanded="false">Hint</button></div>
+    <div class="tile"><svg viewBox="0 0 100 100" role="img" aria-label="Tekening ${n}">${w.svg}</svg></div>
+    <label class="sr" for="w-${w.id}">Nederlands woord bij tekening ${n}</label>
+    <input class="w" id="w-${w.id}" data-id="${w.id}" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="schrijf hier">
+    <p class="fb" id="fb-${w.id}"></p>
+    <p class="hint" id="h-${w.id}" hidden></p>
+  </article>`;
+}
+
+function render() {
+  const list = $('list');
+  let html = '', n = 0;
+  if (state.mixed) {
+    html = `<section class="group"><div class="grid">${state.order.map(id => cardHTML(byId[id], ++n)).join('')}</div></section>`;
+  } else {
+    html = CATS.map(c => {
+      const items = WORDS.filter(w => w.cat === c.key);
+      return `<section class="group" style="--cat:var(--cat-${c.key})"><div class="gh"><h2>${c.nl}</h2><span class="fr">${c.fr}</span><span class="cnt">${items.length} woorden</span></div>
+        <div class="grid">${items.map(w => cardHTML(w, ++n)).join('')}</div></section>`;
+    }).join('');
+  }
+  list.innerHTML = html;
+  WORDS.forEach(w => {
+    const inp = $('w-' + w.id);
+    inp.value = state.vals[w.id] || '';
+    paintCard(w.id);
+    if (state.hints[w.id]) showHint(w.id, true);
+  });
+  updateProgress();
+}
+
+function paintCard(id) {
+  const w = byId[id], card = $('c-' + id), fb = $('fb-' + id), r = state.res[id];
+  card.className = 'card' + (state.checked && r ? ' ' + r : '');
+  let t = '';
+  if (state.checked && r) {
+    const full = w.art + ' ' + w.nl;
+    t = r === 'ok' ? 'Goed!' : r === 'near' ? 'Bijna! Het is: ' + full : r === 'article' ? 'Vergeet de/het niet: ' + full : r === 'wrong' ? 'Het is: ' + full : 'Nog niet ingevuld: ' + full;
+  }
+  fb.textContent = t;
+}
+
+function showHint(id, open) {
+  const w = byId[id], h = $('h-' + id), b = document.querySelector(`[data-hint="${id}"]`);
+  state.hints[id] = open;
+  h.hidden = !open;
+  b.setAttribute('aria-expanded', String(open));
+  if (open) h.innerHTML = `<b>Frans:</b> ${w.fr}<br><b>Begint met:</b> ${w.nl[0]}`;
+}
+
+function updateProgress() {
+  const filled = WORDS.filter(w => norm(state.vals[w.id] || '')).length;
+  $('ptext').textContent = `${filled} / ${WORDS.length} ingevuld`;
+  $('pfill').style.width = (filled / WORDS.length * 100) + '%';
+}
+
+function runCheck(scroll) {
+  const strict = $('strict').checked;
+  state.checked = true;
+  let ok = 0, near = 0;
+  WORDS.forEach(w => {
+    const r = judge(w, state.vals[w.id], strict);
+    state.res[w.id] = r;
+    if (r === 'ok') ok++;
+    if (r === 'near' || r === 'article') near++;
+    paintCard(w.id);
+  });
+  const total = WORDS.length, ratio = ok / total;
+  const msg = ratio >= 0.9 ? 'Uitstekend! Je kent de woorden voor je koffer.'
+    : ratio >= 0.6 ? 'Goed bezig. Bekijk de rode en gele kaartjes en probeer die opnieuw.'
+    : 'Nog even oefenen. Gebruik de hints en probeer de foute woorden opnieuw.';
+  const banner = $('banner');
+  banner.hidden = false;
+  banner.innerHTML = `<div class="score">${ok} van ${total} juist</div><p>${msg}${near ? ' Gele kaartjes zijn bijna goed.' : ''}</p>
+    <div class="row"><button class="btn primary" id="retry" type="button">Alleen fouten opnieuw</button><button class="btn" id="clear" type="button">Alles wissen</button></div>`;
+  if (scroll === true) banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function retryWrong() {
+  WORDS.forEach(w => {
+    if (state.res[w.id] !== 'ok') { state.vals[w.id] = ''; $('w-' + w.id).value = ''; }
+    delete state.res[w.id];
+    paintCard(w.id);
+  });
+  state.checked = false;
+  $('banner').hidden = true;
+  updateProgress();
+  const first = WORDS.find(w => !norm(state.vals[w.id] || ''));
+  if (first) $('w-' + first.id).focus();
+}
+
+function clearAll() {
+  state.vals = {}; state.res = {}; state.hints = {}; state.checked = false;
+  $('banner').hidden = true;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shuffle(a) {
+  const x = a.slice();
+  for (let i = x.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [x[i], x[j]] = [x[j], x[i]]; }
+  return x;
+}
+
+$('list').addEventListener('input', e => {
+  const id = e.target.dataset && e.target.dataset.id;
+  if (!id || !e.target.matches('input.w')) return;
+  state.vals[id] = e.target.value;
+  if (state.checked && state.res[id]) { delete state.res[id]; paintCard(id); }
+  updateProgress();
+});
+$('list').addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || !e.target.matches('input.w')) return;
+  e.preventDefault();
+  const all = Array.from(document.querySelectorAll('input.w'));
+  const next = all[all.indexOf(e.target) + 1];
+  if (next) next.focus(); else { e.target.blur(); $('check').focus(); }
+});
+$('list').addEventListener('click', e => {
+  const b = e.target.closest('[data-hint]');
+  if (b) showHint(b.dataset.hint, !state.hints[b.dataset.hint]);
+});
+$('check').addEventListener('click', () => runCheck(true));
+$('banner').addEventListener('click', e => {
+  if (e.target.id === 'retry') retryWrong();
+  if (e.target.id === 'clear') clearAll();
+});
+$('mix').addEventListener('click', e => {
+  state.mixed = !state.mixed;
+  e.currentTarget.setAttribute('aria-pressed', String(state.mixed));
+  if (state.mixed) state.order = shuffle(WORDS.map(w => w.id));
+  render();
+});
+$('strict').addEventListener('change', () => { if (state.checked) runCheck(); });
+
+render();
+</script>

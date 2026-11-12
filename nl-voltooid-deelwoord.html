@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Het voltooid deelwoord – Oefeningen</title>
+<style>:root{--ink:#2b2438;--muted:#6b6478;--line:#e4dff0;--bg:#faf8ff;--card:#fff;--accent:#5b4b8a;--orange:#d9622f;--ok:#1f8a4c;--okbg:#e8f6ee;--bad:#c0392b;--badbg:#fdecea}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+header{background:var(--accent);color:#fff;padding:18px 16px 14px}
+header h1{margin:0;font-size:20px}
+header p{margin:4px 0 0;font-size:14px;opacity:.9}
+.wrap{max-width:720px;margin:0 auto;padding:0 12px 120px}
+details.rules{background:#fff4ec;border:1px solid #f3cdb6;border-radius:12px;margin:14px 0;padding:10px 14px}
+details.rules summary{font-weight:700;color:var(--orange);cursor:pointer}
+details.rules ol{margin:10px 0 4px;padding-left:20px}
+details.rules li{margin-bottom:8px;font-size:15px}
+.ex{display:block;color:var(--muted);font-size:14px}
+code{background:#fff;border:1px solid #f0d5c3;border-radius:5px;padding:0 5px;font-size:14px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;position:sticky;top:0;background:var(--bg);z-index:5}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer}
+nav button.act{background:var(--accent);color:#fff;border-color:var(--accent)}
+h2{margin:8px 0 2px;font-size:19px;color:var(--accent)}
+.desc{margin:0 0 12px;color:var(--muted);font-size:15px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.card.ok{border-color:var(--ok);background:var(--okbg)}
+.card.bad{border-color:var(--bad);background:var(--badbg)}
+.q{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.num{color:var(--muted);font-size:13px;min-width:24px}
+.verb{font-size:19px;font-weight:700}
+.stem{color:var(--muted);font-size:14px}
+input[type=text]{width:100%;font-size:18px;padding:10px 12px;border:1px solid #cfc8e0;border-radius:8px;background:#fff;color:var(--ink);margin-top:4px}
+input[type=text]:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.two label{font-size:12px;color:var(--muted)}
+.sent{font-size:17px;line-height:2.1}
+.sent input{display:inline-block;width:150px;margin:0 4px;padding:6px 8px;font-size:17px}
+.opts{display:flex;gap:8px;margin-top:4px}
+.opt{flex:1;border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px;font-size:18px;font-weight:700;color:var(--accent);cursor:pointer}
+.opt.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+.status{margin-top:6px;font-size:14px}
+.tick{font-weight:700;color:var(--ok)}
+.tick.x{color:var(--bad)}
+.why{color:var(--ink);margin-top:3px;font-size:14px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px;z-index:10}
+.bar .in{max-width:720px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.score{flex:1;font-weight:700;font-size:15px}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer}
+.btn.p{background:var(--orange);color:#fff}
+.btn.s{background:#ece8f6;color:var(--accent)}
+footer{text-align:center;color:var(--muted);font-size:13px;margin:20px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Het voltooid deelwoord</h1>
+  <p>Interro VTT – le passé composé · pages 71-73 · jeudi 19 novembre</p>
+</header>
+<div class="wrap">
+  <details class="rules">
+    <summary>📘 Rappel des règles</summary>
+    <ol>
+      <li><b>Règle de base : ge + radical + t ou d.</b> Dernière lettre du radical dans <b>SoFTKeTCHuP</b> (s, f, t, k, t, ch, p) → <b>T</b>, sinon → <b>D</b>.
+        <span class="ex"><code>dansen → gedanst</code> <code>spelen → gespeeld</code> <code>werken → gewerkt</code></span>
+        Si le radical finit déjà par t ou d, on n'ajoute rien : <code>chatten → gechat</code> <code>antwoorden → geantwoord</code></li>
+      <li><b>Particule séparable</b> : particule + ge + radical + t/d.
+        <span class="ex"><code>opruimen → opgeruimd</code> <code>klaarmaken → klaargemaakt</code></span></li>
+      <li><b>Préfixes BE, GE, ER, HER, ONT, VER → pas de GE.</b>
+        <span class="ex"><code>gebeuren → gebeurd</code> <code>herkennen → herkend</code> — mais <code>bellen → gebeld</code> (BE n'est pas un préfixe)</span></li>
+      <li><b>-ven / -zen</b> : v → f et z → s pour le radical, mais on ajoute quand même <b>D</b>.
+        <span class="ex"><code>reizen → gereisd</code> <code>leven → geleefd</code></span></li>
+      <li><b>Verbes irréguliers</b> : à apprendre par cœur (voir marque-page). Le participe passé est <b>invariable</b> en néerlandais.</li>
+    </ol>
+    <p><b>Les étapes :</b> ① verbe irrégulier ? → copie le participe. ② prends le radical. ③ T ou D ? ④ préfixe BE/GE/ER/HER/ONT/VER ? → pas de GE, sinon ajoute GE. ⑤ particule séparable ? → place-la devant.</p>
+  </details>
+  <nav id="nav"></nav>
+  <div id="main"></div>
+  <footer>Veel succes! 🍀</footer>
+</div>
+<div class="bar"><div class="in">
+  <div class="score" id="score"></div>
+  <button class="btn s" id="again" type="button">Recommencer</button>
+  <button class="btn p" id="check" type="button">Contrôler</button>
+</div></div>
+<script>
+// ---------- Logique pure : formation du voltooid deelwoord ----------
+const SOFT = 'sftkchp'; // SoFTKeTCHuP : s, f, t, k, t, ch, p
+
+function suffixFor(v) {
+  const l = v.base.slice(-1);
+  if (l === 't' || l === 'd') return '';
+  if (v.vz) return 'd';
+  return SOFT.includes(l) ? 't' : 'd';
+}
+function vtt(v) {
+  const core = v.base + suffixFor(v);
+  return (v.sep || '') + (v.pre ? core : 'ge' + core);
+}
+function stemOf(v) {
+  return v.base + (v.sep ? ' ' + v.sep : '');
+}
+function explain(v) {
+  const l = v.base.slice(-1);
+  const out = [];
+  out.push('radical : ' + stemOf(v));
+  if (l === 't' || l === 'd') out.push('le radical finit déjà par ' + l.toUpperCase() + ' → on n’ajoute rien');
+  else if (v.vz) out.push('le radical finit par ' + l.toUpperCase() + ' mais vient d’un ' + v.vz.toUpperCase() + ' (' + v.vz + '→' + l + ') → on ajoute D');
+  else if (SOFT.includes(l)) out.push('« ' + l + ' » est dans SoFTKeTCHuP → +T');
+  else out.push('« ' + l + ' » n’est pas dans SoFTKeTCHuP → +D');
+  if (v.pre) out.push('préfixe ' + v.pre.toUpperCase() + ' → pas de GE');
+  else out.push('pas de préfixe → on ajoute GE');
+  if (v.sep) out.push('particule séparable « ' + v.sep + ' » → devant GE');
+  if (v.note) out.push(v.note);
+  out.push('= ' + vtt(v));
+  return out.join(' · ');
+}
+function norm(s) { return String(s).trim().toLowerCase().replace(/\s+/g, ' '); }
+function shuffle(a) {
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ---------- Données ----------
+const D = (inf, base, o) => Object.assign({ inf, base }, o || {});
+const L = {};
+[
+  // règle générale
+  D('dansen', 'dans'), D('surfen', 'surf'), D('werken', 'werk'), D('spelen', 'speel'),
+  D('wandelen', 'wandel'), D('fietsen', 'fiets'), D('luisteren', 'luister'), D('maken', 'maak'),
+  D('koken', 'kook'), D('wonen', 'woon'), D('leren', 'leer'), D('winkelen', 'winkel'),
+  D('regenen', 'regen'), D('chatten', 'chat'), D('antwoorden', 'antwoord'), D('voetballen', 'voetbal'),
+  D('poetsen', 'poets'), D('hopen', 'hoop'), D('amuseren', 'amuseer'), D('tellen', 'tel'),
+  D('kruisen', 'kruis'), D('kloppen', 'klop'), D('missen', 'mis'),
+  // préfixes : pas de GE
+  D('beantwoorden', 'beantwoord', { pre: 'be' }),
+  D('verhuizen', 'verhuis', { pre: 'ver', vz: 'z' }),
+  D('herkennen', 'herken', { pre: 'her' }),
+  D('gebeuren', 'gebeur', { pre: 'ge' }),
+  D('ontdekken', 'ontdek', { pre: 'ont' }),
+  D('bestellen', 'bestel', { pre: 'be' }),
+  D('vertellen', 'vertel', { pre: 'ver' }),
+  D('herhalen', 'herhaal', { pre: 'her' }),
+  D('betalen', 'betaal', { pre: 'be' }),
+  D('bedanken', 'bedank', { pre: 'be' }),
+  D('gebruiken', 'gebruik', { pre: 'ge' }),
+  D('ontmoeten', 'ontmoet', { pre: 'ont' }),
+  D('verbeteren', 'verbeter', { pre: 'ver' }),
+  D('herinneren', 'herinner', { pre: 'her' }),
+  D('verwarmen', 'verwarm', { pre: 'ver' }),
+  D('bellen', 'bel', { note: 'attention : le BE de « bellen » n’est pas un préfixe' }),
+  // particules séparables
+  D('opruimen', 'ruim', { sep: 'op' }), D('klaarmaken', 'maak', { sep: 'klaar' }),
+  D('opbellen', 'bel', { sep: 'op' }), D('uitnodigen', 'nodig', { sep: 'uit' }),
+  D('inpakken', 'pak', { sep: 'in' }), D('meespelen', 'speel', { sep: 'mee' }),
+  D('invullen', 'vul', { sep: 'in' }), D('uitleggen', 'leg', { sep: 'uit' }),
+  D('opletten', 'let', { sep: 'op' }), D('afwerken', 'werk', { sep: 'af' }),
+  D('aanzetten', 'zet', { sep: 'aan' }), D('meewerken', 'werk', { sep: 'mee' }),
+  D('uitpakken', 'pak', { sep: 'uit' }), D('klaarzetten', 'zet', { sep: 'klaar' }),
+  // -ven / -zen
+  D('reizen', 'reis', { vz: 'z' }), D('leven', 'leef', { vz: 'v' }),
+  D('geloven', 'geloof', { pre: 'ge', vz: 'v' }), D('beloven', 'beloof', { pre: 'be', vz: 'v' }),
+  D('meereizen', 'reis', { sep: 'mee', vz: 'z' }), D('meeleven', 'leef', { sep: 'mee', vz: 'v' }),
+].forEach(v => { L[v.inf] = v; });
+
+const K = s => s.split(' ');
+const LISTS = {
+  stem: K('spelen maken wandelen fietsen luisteren reizen leven opruimen chatten antwoorden werken wonen opbellen verhuizen uitnodigen inpakken'),
+  td: K('werken spelen dansen surfen wandelen luisteren fietsen maken wonen hopen poetsen leven reizen kruisen chatten antwoorden koken leren'),
+  regular: K('dansen surfen werken spelen wandelen fietsen luisteren maken koken wonen leren winkelen regenen chatten antwoorden voetballen poetsen hopen amuseren tellen'),
+  prefix: K('beantwoorden verhuizen herkennen gebeuren ontdekken bestellen vertellen herhalen betalen bedanken gebruiken ontmoeten verbeteren herinneren verwarmen bellen'),
+  sep: K('opruimen klaarmaken opbellen uitnodigen inpakken meespelen invullen uitleggen opletten afwerken aanzetten meewerken uitpakken klaarzetten'),
+  vz: K('reizen leven verhuizen geloven beloven kruisen surfen meereizen meeleven'),
+  table: K('leren ontdekken inpakken reizen werken herhalen uitnodigen leven kloppen koken'),
+};
+const SENTENCES = [
+  ['Mijn zus heeft haar koffer ___ (inpakken).', 'inpakken'],
+  ['De kinderen hebben de hele dag ___ (spelen).', 'spelen'],
+  ['Ik heb mijn vriend gisteren ___ (opbellen).', 'opbellen'],
+  ['We hebben lang in het bos ___ (wandelen).', 'wandelen'],
+  ['Papa heeft de keuken ___ (opruimen).', 'opruimen'],
+  ['Zij zijn samen naar Spanje ___ (reizen).', 'reizen'],
+  ['De juf heeft mijn vraag ___ (beantwoorden).', 'beantwoorden'],
+  ['Wat is er ___? (gebeuren)', 'gebeuren'],
+  ['Hij heeft vroeger in Brugge ___ (wonen).', 'wonen'],
+  ['Wij hebben de hele middag ___ (winkelen).', 'winkelen'],
+  ['Ik heb mijn huiswerk ___ (maken).', 'maken'],
+  ['Mijn familie is vorig jaar ___ (verhuizen).', 'verhuizen'],
+  ['Ik heb vanavond naar muziek ___ (luisteren).', 'luisteren'],
+  ['De leraar heeft de oefening ___ (uitleggen).', 'uitleggen'],
+  ['Ik heb al mijn vrienden ___ (uitnodigen).', 'uitnodigen'],
+];
+
+if (typeof module !== 'undefined') module.exports = { L, LISTS, SENTENCES, vtt, stemOf, suffixFor, explain, norm };
+
+// ---------- Interface ----------
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v);
+  }
+  kids.flat().forEach(c => { if (c == null) return; e.append(c.nodeType ? c : document.createTextNode(c)); });
+  return e;
+}
+function mkInput() {
+  return el('input', { type: 'text', autocapitalize: 'none', autocomplete: 'off', autocorrect: 'off', spellcheck: 'false', enterkeyhint: 'next' });
+}
+const pick = keys => keys.map(k => L[k]);
+const examPool = () => {
+  const all = [...LISTS.regular, ...LISTS.prefix, ...LISTS.sep, ...LISTS.vz];
+  return pick(shuffle([...new Set(all)]).slice(0, 20));
+};
+
+const SECTIONS = [
+  { id: 's1', label: '1 · Radical', title: '1 · Le radical (de stam)', kind: 'stem',
+    desc: 'Écris la stam : enlève -en, garde une seule voyelle longue (maken → maak), v → f, z → s. Avec une particule séparable, elle va à la fin.',
+    items: () => pick(shuffle(LISTS.stem)) },
+  { id: 's2', label: '2 · T ou D ?', title: '2 · T, D ou rien ?', kind: 'td',
+    desc: 'Regarde la dernière lettre du radical : SoFTKeTCHuP → T, sinon D. Si le radical finit déjà par T ou D → rien. Attention aux verbes en -ven / -zen !',
+    items: () => pick(shuffle(LISTS.td)) },
+  { id: 's3', label: '3 · Règle de base', title: '3 · Règle de base : ge + radical + t/d', kind: 'vtt',
+    desc: 'Écris le voltooid deelwoord (sans « heb » ni « ben »).',
+    items: () => pick(shuffle(LISTS.regular)) },
+  { id: 's4', label: '4 · Pas de GE', title: '4 · Préfixes BE – GE – ER – HER – ONT – VER', kind: 'vtt',
+    desc: 'Ces verbes ne reçoivent pas de GE. Mais attention au piège : « bellen » !',
+    items: () => pick(shuffle(LISTS.prefix)) },
+  { id: 's5', label: '5 · Particules', title: '5 · Particules séparables', kind: 'vtt',
+    desc: 'particule + ge + radical + t/d (opruimen → opgeruimd).',
+    items: () => pick(shuffle(LISTS.sep)) },
+  { id: 's6', label: '6 · V→F / Z→S', title: '6 · Verbes en -ven / -zen', kind: 'vtt',
+    desc: 'Le radical change (v → f, z → s) mais on ajoute D. Attention : kruisen et surfen n’ont pas de v/z !',
+    items: () => pick(shuffle(LISTS.vz)) },
+  { id: 's7', label: '7 · Tableau', title: '7 · Tableau : stam + voltooid deelwoord', kind: 'table',
+    desc: 'Comme à la page 73 : écris la stam, puis le voltooid deelwoord.',
+    items: () => pick(LISTS.table) },
+  { id: 's8', label: '8 · Phrases', title: '8 · Phrases à compléter', kind: 'sent',
+    desc: 'Complète avec le voltooid deelwoord du verbe entre parenthèses.',
+    items: () => shuffle(SENTENCES) },
+  { id: 's9', label: '9 · Examen blanc', title: '9 · Examen blanc (20 verbes mélangés)', kind: 'exam',
+    desc: 'Toutes les règles mélangées, comme à l’interro. Pas d’aide avant de contrôler !',
+    items: examPool },
+];
+
+let current = 's1';
+function show(id) {
+  current = id;
+  try { history.replaceState(null, '', '#' + id); } catch (e) { location.hash = id; }
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('act', b.dataset.id === id));
+  const sec = SECTIONS.find(s => s.id === id);
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  main.append(el('h2', {}, sec.title), el('p', { class: 'desc' }, sec.desc));
+  const rows = [];
+  const inputs = [];
+  sec.items().forEach((v, i) => {
+    const box = el('div', { class: 'card' });
+    const status = el('div', { class: 'status' });
+    let read, expect;
+    const num = el('span', { class: 'num' }, (i + 1) + '.');
+    if (sec.kind === 'vtt' || sec.kind === 'exam') {
+      const inp = mkInput(); inputs.push(inp);
+      box.append(el('div', { class: 'q' }, num, el('span', { class: 'verb' }, v.inf)), inp, status);
+      read = () => [inp.value]; expect = () => [vtt(v)];
+    } else if (sec.kind === 'stem') {
+      const inp = mkInput(); inputs.push(inp);
+      box.append(el('div', { class: 'q' }, num, el('span', { class: 'verb' }, v.inf), el('span', { class: 'stem' }, '→ stam ?')), inp, status);
+      read = () => [inp.value]; expect = () => [stemOf(v)];
+    } else if (sec.kind === 'td') {
+      let choice = null;
+      const btns = [];
+      ['t', 'd', ''].forEach(c => {
+        const b = el('button', { class: 'opt', type: 'button' }, c === '' ? 'rien' : c.toUpperCase());
+        b.addEventListener('click', () => { choice = c; btns.forEach(x => x.classList.remove('sel')); b.classList.add('sel'); });
+        btns.push(b);
+      });
+      box.append(el('div', { class: 'q' }, num, el('span', { class: 'verb' }, v.inf), el('span', { class: 'stem' }, 'radical : ' + stemOf(v))), el('div', { class: 'opts' }, btns), status);
+      read = () => [choice === null ? '' : (choice === '' ? 'rien' : choice)];
+      expect = () => [suffixFor(v) === '' ? 'rien' : suffixFor(v)];
+    } else if (sec.kind === 'table') {
+      const a = mkInput(), b = mkInput(); inputs.push(a, b);
+      box.append(el('div', { class: 'q' }, num, el('span', { class: 'verb' }, v.inf)),
+        el('div', { class: 'two' }, el('div', {}, el('label', {}, 'stam'), a), el('div', {}, el('label', {}, 'voltooid deelwoord'), b)), status);
+      read = () => [a.value, b.value]; expect = () => [stemOf(v), vtt(v)];
+    } else if (sec.kind === 'sent') {
+      const inp = mkInput(); inputs.push(inp);
+      const [text, key] = v; v = L[key];
+      const parts = text.split('___');
+      box.append(el('div', { class: 'sent' }, num, ' ', parts[0], inp, parts[1]), status);
+      read = () => [inp.value]; expect = () => [vtt(v)];
+    }
+    rows.push({ v, box, status, read, expect });
+    main.append(box);
+  });
+  inputs.forEach((inp, i) => inp.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    if (inputs[i + 1]) inputs[i + 1].focus(); else check();
+  }));
+
+  const score = document.getElementById('score');
+  score.textContent = '';
+  function check() {
+    let good = 0;
+    rows.forEach(r => {
+      const got = r.read().map(norm), exp = r.expect().map(norm);
+      const ok = got.every((g, i) => g === exp[i]);
+      if (ok) good++;
+      r.box.classList.toggle('ok', ok);
+      r.box.classList.toggle('bad', !ok);
+      r.status.innerHTML = '';
+      if (ok) r.status.append(el('span', { class: 'tick' }, '✓ Juist !'));
+      else r.status.append(el('div', { class: 'tick x' }, '✗ Réponse : ' + r.expect().join('  /  ')), el('div', { class: 'why' }, explain(r.v)));
+    });
+    const pct = good / rows.length;
+    score.textContent = 'Score : ' + good + ' / ' + rows.length + (pct >= 0.9 ? ' 🎉 Uitstekend !' : pct >= 0.7 ? ' 👍 Goed bezig !' : ' 💪 Encore un tour');
+    const firstBad = rows.find(r => r.box.classList.contains('bad'));
+    (firstBad || rows[0]).box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  document.getElementById('check').onclick = check;
+  document.getElementById('again').onclick = () => { show(current); window.scrollTo(0, 0); };
+}
+
+const nav = document.getElementById('nav');
+SECTIONS.forEach(s => {
+  const b = el('button', { type: 'button' }, s.label);
+  b.dataset.id = s.id;
+  b.addEventListener('click', () => { show(s.id); window.scrollTo(0, 0); });
+  nav.append(b);
+});
+const start = SECTIONS.find(s => '#' + s.id === location.hash);
+show(start ? start.id : 's1');
+
+</script>
+</body>
+</html>

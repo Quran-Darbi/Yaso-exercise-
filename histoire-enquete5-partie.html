@@ -71,6 +71,9 @@ app.innerHTML=`<h1>📚 Histoire – Enquête 5 – Partie</h1><div class="small
 <button class="btn" onclick="quiz('🍞 Alimentation')">🍞 Quiz : alimentation</button>
 <button class="btn" onclick="quiz('🌾 Rendements')">🌾 Quiz : rendements</button>
 <button class="btn" onclick="quiz('⚔️ Classes sociales')">⚔️ Quiz : classes sociales</button>
+<button class="btn" onclick="open_()">📝 Questions ouvertes (écrire sa réponse)</button>
+<button class="btn" onclick="docs()">🕵️ Détective des documents</button>
+<button class="btn" onclick="syn()">✍️ S'entraîner à la synthèse</button>
 <button class="btn alt" onclick="cards()">🃏 Cartes de vocabulaire</button>
 <button class="btn alt" onclick="sort()">🍽️ Jeu : paysan ou noble ?</button>
 <div class="small">Tout est visuel, sans son. Pause conseillée après chaque série.</div>`}
@@ -110,6 +113,91 @@ app.innerHTML=`<div class="bar"><i style="width:${si/sl.length*100}%"></i></div>
 function ans(k){const ok=sl[si][1]===k;if(ok)ss++;
 document.getElementById('r').innerHTML='';
 document.getElementById('f').innerHTML=`<div class="fb">${ok?'✅ Bravo !':'❌ C\'était : '+(sl[si][1]==='P'?'🧑‍🌾 Paysan':'🏰 Noble')}</div><button class="btn" onclick="si++;showS()">Suivant ➡️</button>`}
+
+const OPEN=[
+{q:"Explique l'assolement triennal et la jachère.",k:["3 soles","céréale d'hiver","céréale de printemps","jachère = terre au repos"],m:"L'assolement triennal divise le champ cultivé en trois soles : une sole de céréale d'hiver (blé), une sole de céréale de printemps (orge, avoine) ou de légumineuse, et une sole de jachère. Chaque année on change. La jachère est une terre laissée au repos."},
+{q:"Compare l'alimentation du paysan et celle du seigneur.",k:["pain, bouillie","peu variée","viandes, gibier","épices","banquet"],m:"Le paysan mange surtout du pain, de la bouillie et des galettes de sarrasin, avec quelques légumes (fèves, pois, poireaux), très peu de sel et presque jamais de viande ; il boit de la bière. Le seigneur mange des viandes variées, du gibier, du poisson, des fruits, avec des épices, et boit du vin lors de banquets avec ménestrels."},
+{q:"Quels sont les trois ordres ? Quel est le rôle de chacun ? Pourquoi sont-ils complémentaires ?",k:["prêtres prient","combattants protègent","paysans travaillent / nourrissent","complémentaires, chacun utile aux autres"],m:"Les prêtres prient, les combattants protègent par les armes, les paysans travaillent la terre et nourrissent tout le monde. Ils sont complémentaires : les prêtres prient pour tous, les combattants défendent les autres et les paysans les nourrissent (texte de 1036)."},
+{q:"Quelle différence y a-t-il entre un serf et un vilain ? Cite trois obligations du paysan.",k:["vilain libre","serf non libre","cens, taille, corvées, banalités"],m:"Le vilain est un paysan libre. Le serf ne peut ni quitter la seigneurie, ni se marier, ni transmettre ses biens sans l'accord du seigneur. Le paysan doit le cens, la taille, des corvées, les banalités (moulin, four, pressoir) et le champart."},
+{q:"Explique la vassalité : qui est lié, et quelles sont les obligations de chacun ?",k:["suzerain et vassal","protection","fief","conseil","aide militaire","aide financière"],m:"La vassalité lie un suzerain (seigneur puissant) à son vassal. Le seigneur doit protection et entretien par un fief. Le vassal doit le conseil, l'aide militaire (défendre, garder le château, partir en guerre, 40 jours) et l'aide financière (mariage de la fille, adoubement du fils, rançon, croisade)."},
+{q:"Décris la cérémonie de l'hommage.",k:["mains jointes","« Je le veux »","baiser","serment de fidélité","reliques","investiture / fief"],m:"Le futur vassal met ses mains jointes dans celles du seigneur et répond « Je le veux », puis ils s'unissent par un baiser. Il jure fidélité sur des reliques. Enfin, le seigneur lui remet un fief : c'est l'investiture."},
+{q:"Pourquoi construit-on des châteaux forts et quelles sont leurs fonctions ?",k:["autorité","protection / sécurité","bois puis pierre","fonction économique (redevances)","lieu de vie, banquets"],m:"Le château affirme l'autorité du seigneur, impressionne les rivaux et protège la population contre les pillards. D'abord en bois, puis en pierre (dès le XIIe siècle). Il a une fonction militaire, économique (le seigneur reçoit les redevances) et sert de lieu de vie, de loisirs et de banquets."},
+{q:"Pourquoi les rendements sont-ils faibles au début, et quelles innovations les améliorent ?",k:["outils rudimentaires","charrue","collier d'épaule","moulin à vent","assolement triennal"],m:"Les outils sont rudimentaires (houe, faucille, fléau), donc le travail est lent. Ensuite apparaissent la charrue, le collier d'épaule, le moulin à vent et l'assolement triennal, qui augmentent la production de nourriture."},
+{q:"Quel est le rôle du chevalier dans la société ?",k:["défendre / protéger les faibles","loyal, preux","adoubement","tournoi","déshonneur"],m:"Le chevalier protège les faibles, secourt les pauvres, punit les voleurs et juge avec équité. Il est loyal et preux, craint le déshonneur plus que la mort. Il devient chevalier lors de l'adoubement et s'entraîne dans les tournois."},
+{q:"Quels sont les devoirs du chrétien et que risque-t-il s'il ne les respecte pas ?",k:["confession","pénitence","communion à Pâques","interdit d'église","sans sépulture chrétienne"],m:"Le chrétien doit se confesser au moins une fois par an, faire sa pénitence et communier à Pâques (concile de Latran, 1215). Sinon, l'entrée de l'église lui est interdite et il est privé de sépulture chrétienne."},
+{q:"Pourquoi dit-on que le XIVe siècle est « maudit » ?",k:["famine (1316)","peste","massacres des Juifs","flagellants"],m:"Le XIVe siècle connaît la famine (1316, pluies et mauvaises récoltes), la peste de 1348-1350 qui tue énormément, des massacres de Juifs accusés d'avoir empoisonné les fontaines et des processions de flagellants qui font pénitence."}
+];
+const DOCS=[
+{d:"Miniature de 1448 conservée à la Bibliothèque royale de Bruxelles",t:"Trace du passé",n:"Iconographique"},
+{d:"Copie manuscrite des articles de la loi salique (VIIIe siècle)",t:"Trace du passé",n:"Écrit"},
+{d:"Dessin moderne : reconstitution d'une motte du Xe-XIe siècle",t:"Travail postérieur",n:"Iconographique"},
+{d:"Donjon de Franchimont (Liège), XIe siècle",t:"Trace du passé",n:"Archéologique"},
+{d:"Extrait de la chronique de Gilles Le Muisit, abbé de Tournai (vers 1350)",t:"Trace du passé",n:"Écrit"},
+{d:"Extrait d'un manuel scolaire d'histoire publié en 2010",t:"Travail postérieur",n:"Écrit"},
+{d:"La moisson, peinture d'Abel Grimmer (1607)",t:"Trace du passé",n:"Iconographique"},
+{d:"Description de l'élection de Vézelay par Vauban (1697)",t:"Trace du passé",n:"Écrit"},
+{d:"Château de Spontin (XVIe siècle, province de Namur)",t:"Trace du passé",n:"Archéologique"},
+{d:"Texte du « Livre des Propriétés des choses » (XVe siècle)",t:"Trace du passé",n:"Écrit"}
+];
+const SYN=[
+{q:"Quelles sont les transformations que nos campagnes subissent au Moyen Âge ?",k:[["population|habitants|27 000 000|27 millions","la population augmente"],["défrich|forêt","défrichement des forêts"],["charrue","charrue"],["collier","collier d'épaule"],["moulin","moulin à vent"],["assolement|triennal","assolement triennal"]],m:"En 250 ans, la population augmente de plus de 27 millions d'habitants (69 millions en 1250). La conséquence première est le défrichement massif des forêts pour s'installer et cultiver. De plus, une série d'innovations techniques facilitent et améliorent le travail agricole : moulin à vent, charrue, collier d'épaule et assolement triennal."},
+{q:"Quelle est la fonction du château fort ? (militaire, économique, vie)",k:[["bois","d'abord en bois"],["pierre","puis en pierre"],["protect|défen|sécurité","protection"],["autorité","autorité"],["redevance|impôt","fonction économique"],["banquet|jeu|famille|loisir","lieu de vie"]],m:"Au départ le château est en bois, puis en pierre. Il protège contre les ennemis (donjon, tours, meurtrières) et affirme l'autorité du seigneur. Il est aussi la résidence du seigneur et de sa famille, un lieu de divertissement (banquets, jeux) et un lieu économique où le seigneur perçoit les redevances."},
+{q:"Quels rapports existent entre le seigneur et le paysan ?",k:[["protection|protège","le seigneur protège"],["cens","cens"],["corvée","corvées"],["banalité","banalités"],["serf","serf"],["vilain","vilain"]],m:"Le seigneur protège le paysan et lui cède une tenure. En échange, le paysan paie le cens, la taille, les banalités, le champart et fait des corvées sur la réserve. Le vilain est libre ; le serf dépend du seigneur."},
+{q:"Présente les trois ordres de la société médiévale.",k:[["prêtre|clergé","prêtres"],["combattant|noble|chevalier","combattants"],["paysan|agriculteur","paysans"],["prie","prient"],["protège|défend","protègent"],["nourri|travail","nourrissent / travaillent"],["complémentaire","complémentaires"]],m:"La société est divisée en trois ordres : les prêtres qui prient, les combattants qui protègent, les paysans qui travaillent et nourrissent. Le texte de 1036 les présente comme complémentaires : chacun est utile aux autres."}
+];
+OPEN.splice(0,OPEN.length,...[0,1,2,3,7].map(i=>OPEN[i]));
+DOCS.splice(0,DOCS.length,
+{d:"Description de l'élection de Vézelay par Vauban (1697)",t:"Trace du passé",n:"Écrit"},
+{d:"Texte du « Livre des Propriétés des choses » (XVe siècle)",t:"Trace du passé",n:"Écrit"},
+{d:"Extrait d'un manuel scolaire d'histoire publié en 2010",t:"Travail postérieur",n:"Écrit"},
+{d:"Texte de la « Geste des évêques de Cambrai » (1036)",t:"Trace du passé",n:"Écrit"},
+{d:"La moisson, peinture d'Abel Grimmer (1607)",t:"Trace du passé",n:"Iconographique"},
+{d:"Reconstitution moderne (dessin) d'un village médiéval",t:"Travail postérieur",n:"Iconographique"});
+SYN.splice(0,SYN.length,...[0,2,3].map(i=>SYN[i]));
+function norm(x){return x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+let oi,oq;
+function open_(){oq=shuf(OPEN).slice(0,5);oi=0;showO()}
+function showO(){
+if(oi>=oq.length){app.innerHTML=`<div class="big">📝</div><div class="card">Série terminée ! ⭐ ${stars}</div><div class="card">🧘 <b>Pause !</b> Bois de l'eau et étire-toi 1 minute.</div><button class="btn" onclick="open_()">Encore 5 questions</button><button class="btn alt" onclick="home()">🏠 Accueil</button>`;return}
+const x=oq[oi];
+app.innerHTML=`<div class="bar"><i style="width:${oi/oq.length*100}%"></i></div><span class="tag">Réponds avec tes mots · ${oi+1}/${oq.length}</span>
+<div class="card"><b>${x.q}</b></div>
+<textarea id="ta" rows="5" placeholder="Écris ta réponse ici..." style="width:100%;font:inherit;padding:12px;border-radius:12px;border:2px solid #999"></textarea>
+<div id="f"></div><button class="btn" id="go" onclick="revO()">👀 Voir le modèle</button>`}
+function revO(){const x=oq[oi];
+document.getElementById('go').remove();
+document.getElementById('f').innerHTML=`<div class="fb"><b>Mots à retrouver :</b> ${x.k.join(' · ')}</div><div class="fb" style="background:#eef3ff"><b>Modèle :</b><br>${x.m}</div>
+<div class="row"><button class="btn bad" onclick="oi++;showO()">🔁 À revoir</button><button class="btn good" onclick="stars+=2;save();oi++;showO()">✅ J'avais l'essentiel</button></div>`}
+let di,dq,ds;
+function docs(){dq=shuf(DOCS).slice(0,5);di=0;ds=0;showD()}
+function showD(){
+if(di>=dq.length){stars+=ds;save();app.innerHTML=`<div class="big">🕵️</div><div class="card"><b>${ds} / ${dq.length}</b> documents bien classés.<br>⭐ +${ds}</div><button class="btn" onclick="docs()">Rejouer</button><button class="btn alt" onclick="home()">🏠 Accueil</button>`;return}
+const x=dq[di];
+app.innerHTML=`<div class="bar"><i style="width:${di/dq.length*100}%"></i></div><span class="tag">Détective des documents · ${di+1}/${dq.length}</span>
+<div class="card"><b>${x.d}</b></div>
+<div class="small">1) Trace du passé ou travail postérieur ?</div>
+<div class="row" id="r1"><button class="btn alt" onclick="pickD(1,'Trace du passé')">Trace du passé</button><button class="btn alt" onclick="pickD(1,'Travail postérieur')">Travail postérieur</button></div>
+<div class="small">2) Nature du document ?</div>
+<div class="row" id="r2"><button class="btn alt" onclick="pickD(2,'Écrit')">Écrit</button><button class="btn alt" onclick="pickD(2,'Iconographique')">Image</button><button class="btn alt" onclick="pickD(2,'Archéologique')">Archéo.</button></div>
+<div id="f"></div>`;
+window.pa=null;window.pb=null}
+function pickD(k,v){if(k==1)window.pa=v;else window.pb=v;
+const r=document.getElementById('r'+k);[...r.children].forEach(b=>{b.className='btn alt';if(b.textContent.startsWith(v.slice(0,4))||(v==='Iconographique'&&b.textContent==='Image')||(v==='Archéologique'&&b.textContent==='Archéo.'))b.className='btn'});
+if(window.pa&&window.pb){const x=dq[di],ok=window.pa===x.t&&window.pb===x.n;if(ok)ds++;
+document.getElementById('f').innerHTML=`<div class="fb">${ok?'✅ Bravo !':'❌ Réponse : '+x.t+' · '+x.n}</div><button class="btn" onclick="di++;showD()">Suivant ➡️</button>`}}
+let yi;
+function syn(){yi=0;showY(shuf(SYN)[0])}
+function showY(x){
+app.innerHTML=`<span class="tag">Écrire une synthèse</span><div class="card"><b>${x.q}</b></div>
+<div class="small">Écris 5 phrases qui répondent à la question, en reliant les idées.</div>
+<textarea id="ta" rows="8" style="width:100%;font:inherit;padding:12px;border-radius:12px;border:2px solid #999"></textarea>
+<div id="f"></div><button class="btn" id="go">✔️ Vérifier mes mots-clés</button>`;
+document.getElementById('go').onclick=()=>{
+const t=norm(document.getElementById('ta').value);let n=0;
+const rows=x.k.map(p=>{const ok=p[0].split('|').some(w=>t.includes(norm(w)));if(ok)n++;return `<div>${ok?'✅':'⬜'} ${p[1]}</div>`}).join('');
+stars+=n>=Math.ceil(x.k.length*0.7)?2:0;save();
+document.getElementById('f').innerHTML=`<div class="fb"><b>${n} / ${x.k.length}</b> idées trouvées<br>${rows}</div><div class="fb" style="background:#eef3ff"><b>Modèle :</b><br>${x.m}</div><button class="btn" onclick="syn()">Une autre synthèse</button><button class="btn alt" onclick="home()">🏠 Accueil</button>`;
+document.getElementById('go').remove()}}
 home();
 </script>
 </body>

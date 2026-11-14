@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Histoire – Enquête 5 – Partie</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f1ea;color:#222;font-size:20px;line-height:1.35}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:26px;margin:8px 0}
+.card{background:#fff;border-radius:20px;padding:22px;box-shadow:0 2px 10px #0002;margin:14px 0}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:18px;margin:10px 0;font-size:20px;font-weight:600;background:#2f6fed;color:#fff;cursor:pointer;text-align:left}
+.btn.alt{background:#fff;color:#222;border:3px solid #2f6fed}
+.btn.good{background:#2e9e5b;color:#fff;border-color:#2e9e5b}
+.btn.bad{background:#d64545;color:#fff;border-color:#d64545}
+.btn:disabled{cursor:default}
+.bar{height:16px;background:#ddd;border-radius:8px;overflow:hidden;margin:8px 0}
+.bar>i{display:block;height:100%;background:#2e9e5b;width:0;transition:width .3s}
+.big{font-size:60px;text-align:center}
+.tag{display:inline-block;padding:4px 12px;border-radius:12px;background:#e8eefc;font-size:16px;font-weight:600}
+.fb{font-size:19px;padding:12px;border-radius:12px;background:#eef8f1;margin-top:8px}
+.flip{min-height:170px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:24px;cursor:pointer}
+.row{display:flex;gap:10px}.row .btn{text-align:center}
+.small{font-size:16px;color:#555}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const Q=[
+{t:"🍞 Alimentation",q:"Quelle est la base de l'alimentation du paysan ?",a:["Pain et bouillie de céréales","Viandes variées et gibier","Poisson et épices"],c:0,e:"Le paysan mange surtout du pain et de la bouillie."},
+{t:"🍞 Alimentation",q:"Qu'est-ce que le sarrasin ?",a:["Le blé noir","Une épice","Une boisson"],c:0,e:"Le sarrasin = blé noir, il améliore la nourriture du paysan."},
+{t:"🍞 Alimentation",q:"Quelle boisson boit surtout le paysan ?",a:["La bière (cervoise)","Le vin tous les jours","Le café"],c:0,e:"Le vin est rare pour le peuple."},
+{t:"🍞 Alimentation",q:"Pourquoi les nobles utilisent-ils des épices ?",a:["Pour relever les sauces et cacher le goût fort des viandes","Pour soigner les malades","Pour conserver le pain"],c:0,e:"Les épices relèvent les sauces et cachent le goût trop fort des viandes."},
+{t:"🍞 Alimentation",q:"Qui joue de la musique pendant le banquet du seigneur ?",a:["Les ménestrels","Les paysans","Les moines"],c:0,e:"Les ménestrels amusent la compagnie avec leurs instruments."},
+{t:"🍞 Alimentation",q:"Combien de fois par an le peuple mange-t-il de la viande (Vauban, 1697) ?",a:["Pas trois fois","Tous les jours","Chaque semaine"],c:0,e:"« Pas trois fois de la viande en un an »."},
+{t:"🌾 Rendements",q:"Pourquoi les rendements sont-ils faibles au début du Moyen Âge ?",a:["Les outils sont rudimentaires","Il y a trop de machines","Les champs sont trop petits"],c:0,e:"Houe, faucille, fléau : le travail est lent et peu efficace."},
+{t:"🌾 Rendements",q:"Qu'est-ce que le rendement ?",a:["Ce qu'on récolte par rapport à ce qu'on a semé","Le prix du pain","Le nombre de paysans"],c:0,e:"Rendement = récolte comparée à la semence."},
+{t:"🌾 Rendements",q:"Quel progrès tire jusqu'à 500 kg sans étouffer le cheval ?",a:["Le collier d'épaule","Le collier de cou","Le moulin à vent"],c:0,e:"Le collier d'épaule n'étouffe pas l'animal."},
+{t:"🌾 Rendements",q:"À quoi sert le moulin à vent ?",a:["Moudre les grains en farine","Labourer","Couper les arbres"],c:0,e:"Il moud les céréales pour faire de la farine."},
+{t:"🌾 Rendements",q:"Qu'est-ce que la jachère ?",a:["Une terre laissée au repos","Une récolte de blé","Un outil"],c:0,e:"La jachère = terre au repos."},
+{t:"🌾 Rendements",q:"Assolement triennal : en combien de soles divise-t-on le champ ?",a:["3","2","12"],c:0,e:"3 soles : céréale d'hiver, céréale de printemps (ou légumineuse), jachère."},
+{t:"🌾 Rendements",q:"De 1000 à 1250, la population européenne augmente de…",a:["27 millions (42 → 69)","5 millions","100 millions"],c:0,e:"De 42 à 69 millions d'habitants."},
+{t:"⚔️ Classes sociales",q:"Quel est le rôle des prêtres ?",a:["Prier","Protéger par les armes","Cultiver la terre"],c:0,e:"Les prêtres prient."},
+{t:"⚔️ Classes sociales",q:"Quel est le rôle des combattants (nobles) ?",a:["Protéger","Prier","Nourrir"],c:0,e:"Les combattants protègent par les armes."},
+{t:"⚔️ Classes sociales",q:"Quel est le rôle des paysans ?",a:["Travailler la terre et nourrir","Rendre la justice","Prier"],c:0,e:"Les paysans travaillent et nourrissent tout le monde."},
+{t:"⚔️ Classes sociales",q:"Dans le texte de 1036, les trois ordres sont…",a:["Complémentaires","Ennemis","Tous pareils"],c:0,e:"Chacun est utile aux autres."},
+{t:"⚔️ Classes sociales",q:"Quelle différence entre serf et vilain ?",a:["Le vilain est libre ; le serf dépend du seigneur","Le serf est libre","Aucune"],c:0,e:"Le serf ne peut ni partir, ni se marier, ni transmettre ses biens sans accord."},
+{t:"⚔️ Classes sociales",q:"Le cens, c'est…",a:["Une taxe payée au seigneur","Un outil","Un château"],c:0,e:"Le cens est une taxe sur la tenure."},
+{t:"⚔️ Classes sociales",q:"Les banalités, ce sont…",a:["Les taxes pour utiliser moulin, four, pressoir","Les fêtes du village","Les armes du chevalier"],c:0,e:"Moulin banal, four banal, pressoir."},
+{t:"⚔️ Classes sociales",q:"La corvée, c'est…",a:["Un travail gratuit pour le seigneur","Une taxe en argent","Un repas"],c:0,e:"Travail gratuit sur la réserve du seigneur."}
+];
+const F=[
+["Pain et bouillie","Base de l'alimentation du paysan"],["Sarrasin","Blé noir"],["Cervoise","Bière"],["Ménestrel","Musicien du Moyen Âge"],
+["Jachère","Terre au repos"],["Assolement triennal","Champ divisé en 3 soles, tournantes"],["Collier d'épaule","Permet de tirer jusqu'à 500 kg sans étouffer l'animal"],["Moulin à vent","Moud les grains en farine"],["Défrichement","Couper la forêt pour cultiver"],
+["Prêtres","Ceux qui prient"],["Combattants","Ceux qui protègent"],["Paysans","Ceux qui travaillent et nourrissent"],["Cens","Taxe payée au seigneur"],["Corvée","Travail gratuit pour le seigneur"],["Banalités","Taxes : moulin, four, pressoir"],["Vilain","Paysan libre"],["Serf","Paysan non libre"],["Laïc","Qui n'est pas du clergé"],["Ecclésiastique","Membre du clergé"],["Vassal","Guerrier au service d'un seigneur"],["Suzerain","Seigneur dont dépend un vassal"]
+];
+const SORT=[
+["Pain et bouillie","P"],["Gibier","N"],["Épices","N"],["Sarrasin","P"],["Cervoise","P"],["Banquet avec ménestrels","N"],["Fèves et pois","P"],["Poisson, viandes variées","N"],["Pas de sel (très peu)","P"],["Vin à table","N"]
+];
+const app=document.getElementById('app');
+let stars=0;try{stars=+localStorage.getItem('h2g_stars')||0}catch(e){}
+function save(){try{localStorage.setItem('h2g_stars',stars)}catch(e){}}
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+function home(){
+app.innerHTML=`<h1>📚 Histoire – Enquête 5 – Partie</h1><div class="small">2G · Séances courtes de 5 questions</div>
+<div class="card"><b>⭐ ${stars} étoiles</b></div>
+<button class="btn" onclick="quiz()">🎯 Quiz rapide (5 questions)</button>
+<button class="btn" onclick="quiz('🍞 Alimentation')">🍞 Quiz : alimentation</button>
+<button class="btn" onclick="quiz('🌾 Rendements')">🌾 Quiz : rendements</button>
+<button class="btn" onclick="quiz('⚔️ Classes sociales')">⚔️ Quiz : classes sociales</button>
+<button class="btn alt" onclick="cards()">🃏 Cartes de vocabulaire</button>
+<button class="btn alt" onclick="sort()">🍽️ Jeu : paysan ou noble ?</button>
+<div class="small">Tout est visuel, sans son. Pause conseillée après chaque série.</div>`}
+let qs,qi,sc;
+function quiz(th){qs=shuf(Q.filter(x=>!th||x.t===th)).slice(0,5);qi=0;sc=0;showQ()}
+function showQ(){
+if(qi>=qs.length)return endQ();
+const x=qs[qi],opts=shuf(x.a.map((t,i)=>({t,ok:i===x.c})));
+app.innerHTML=`<div class="bar"><i style="width:${qi/qs.length*100}%"></i></div><span class="tag">${x.t} · ${qi+1}/${qs.length}</span>
+<div class="card"><b>${x.q}</b></div><div id="o"></div><div id="f"></div>`;
+const o=document.getElementById('o');
+opts.forEach(p=>{const b=document.createElement('button');b.className='btn alt';b.textContent=p.t;
+b.onclick=()=>{[...o.children].forEach((c,i)=>{c.disabled=true;if(opts[i].ok)c.className='btn good'});
+if(p.ok){sc++;stars++;save()}else b.className='btn bad';
+document.getElementById('f').innerHTML=`<div class="fb">${p.ok?'✅ Bravo !':'❌ Pas tout à fait.'} ${x.e}</div><button class="btn" onclick="qi++;showQ()">Suivant ➡️</button>`};
+o.appendChild(b)})}
+function endQ(){
+app.innerHTML=`<div class="big">${sc>=4?'🏆':sc>=2?'👍':'💪'}</div><div class="card"><b>${sc} / ${qs.length}</b> bonnes réponses.<br>⭐ Total : ${stars}</div>
+<div class="card">🧘 <b>Pause !</b> Lève-toi, bois de l'eau, étire-toi 1 minute. Puis recommence.</div>
+<button class="btn" onclick="quiz()">Encore 5 questions</button><button class="btn alt" onclick="home()">🏠 Accueil</button>`}
+let fc,fi,fr;
+function cards(){fc=shuf(F);fi=0;fr=false;showC()}
+function showC(){
+if(fi>=fc.length){home();return}
+const c=fc[fi];
+app.innerHTML=`<div class="bar"><i style="width:${fi/fc.length*100}%"></i></div><span class="tag">Carte ${fi+1}/${fc.length}</span>
+<div class="card flip" onclick="fr=!fr;showC()">${fr?c[1]:'<b>'+c[0]+'</b>'}</div>
+<div class="small">Touche la carte pour la retourner.</div>
+<div class="row"><button class="btn bad" onclick="fi++;fr=false;showC()">Je révise encore</button><button class="btn good" onclick="stars++;save();fi++;fr=false;showC()">Je sais ✓</button></div>
+<button class="btn alt" onclick="home()">🏠 Accueil</button>`}
+let si,ss,sl;
+function sort(){sl=shuf(SORT).slice(0,8);si=0;ss=0;showS()}
+function showS(){
+if(si>=sl.length){stars+=ss;save();app.innerHTML=`<div class="big">🎉</div><div class="card"><b>${ss} / ${sl.length}</b><br>⭐ +${ss}</div><button class="btn" onclick="sort()">Rejouer</button><button class="btn alt" onclick="home()">🏠 Accueil</button>`;return}
+app.innerHTML=`<div class="bar"><i style="width:${si/sl.length*100}%"></i></div><div class="card flip"><b>${sl[si][0]}</b></div><div id="f"></div>
+<div class="row" id="r"><button class="btn alt" onclick="ans('P')">🧑‍🌾 Paysan</button><button class="btn alt" onclick="ans('N')">🏰 Noble</button></div>`}
+function ans(k){const ok=sl[si][1]===k;if(ok)ss++;
+document.getElementById('r').innerHTML='';
+document.getElementById('f').innerHTML=`<div class="fb">${ok?'✅ Bravo !':'❌ C\'était : '+(sl[si][1]==='P'?'🧑‍🌾 Paysan':'🏰 Noble')}</div><button class="btn" onclick="si++;showS()">Suivant ➡️</button>`}
+home();
+</script>
+</body>
+</html>

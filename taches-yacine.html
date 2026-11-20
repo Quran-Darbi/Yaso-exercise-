@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les tâches de Yacine aujourd'hui</title>
+<style>
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;background:#f6f4ee;color:#1f2a37;font-family:"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:560px;margin:0 auto;padding:18px 14px 40px}
+  h1{font-size:1.45rem;margin:6px 0 2px}
+  .sub{color:#6b7280;margin:0 0 12px;font-size:.95rem}
+  .bar{height:14px;background:#e5e1d6;border-radius:99px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#a855f7,#f59e0b,#22c55e);transition:width .3s}
+  .count{margin:6px 0 14px;font-weight:700}
+  section{border-radius:16px;padding:6px 12px 10px;margin-bottom:14px;border:2px solid var(--c);background:var(--bg)}
+  h2{font-size:1.05rem;margin:8px 0 4px;color:var(--c)}
+  .row{display:flex;align-items:center;gap:10px;padding:10px 6px;border-top:1px dashed var(--c);font-size:1.02rem}
+  h2+.row{border-top:0}
+  label.row{cursor:pointer}
+  .t{flex:none;min-width:58px;font-weight:700;color:#fff;background:var(--c);border-radius:8px;text-align:center;padding:2px 6px;font-size:.9rem}
+  .pause .t{background:#fff;color:var(--c);border:2px solid var(--c)}
+  .pause .x{font-style:italic;color:#4b5563}
+  input[type=checkbox]{width:26px;height:26px;flex:none;accent-color:var(--c)}
+  .row.done .x{text-decoration:line-through;color:#6b7280}
+  .b1{--c:#2563eb;--bg:#eff6ff}.b2{--c:#7c3aed;--bg:#f5f3ff}.b3{--c:#ea580c;--bg:#fff7ed}.b4{--c:#16a34a;--bg:#f0fdf4}.b5{--c:#db2777;--bg:#fdf2f8}
+  .msg{display:none;text-align:center;font-size:1.2rem;font-weight:800;color:#16a34a;margin:8px 0}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  button,a.btn{display:inline-block;background:#fff;border:1px solid #d6d3c8;border-radius:10px;padding:9px 14px;color:#1f2a37;font:inherit;text-decoration:none;cursor:pointer}
+  button.main{background:#16a34a;color:#fff;border-color:#16a34a;font-weight:700}
+  input.e{font:inherit;border:1px solid #cbd5e1;border-radius:8px;padding:6px 8px;min-width:0;background:#fff}
+  input.et{width:78px;flex:none}input.ex{flex:1}input.eh{width:100%;font-weight:700}
+  .del{background:#fee2e2;border-color:#fecaca;color:#b91c1c;padding:6px 10px}
+  .add{margin-top:8px;width:100%}
+  .editbar{display:none;background:#fef3c7;border:1px solid #fcd34d;border-radius:12px;padding:8px 12px;margin-bottom:12px;font-size:.92rem}
+  body.editing .editbar{display:block}
+  #note{font-size:.9rem;color:#4b5563;margin-top:8px;white-space:pre-line}
+  @media print{.btns,#note,.editbar{display:none}@page{margin:8mm}.row{padding:3px 6px;font-size:.85rem}section{margin-bottom:8px}h1{font-size:1.2rem}.count,.bar{display:none}input[type=checkbox]{width:20px;height:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 id="title">Les tâches de Yacine aujourd'hui</h1>
+  <p class="sub" id="sub">Vendredi 20 novembre · Mets un minuteur pour chaque tâche et coche quand c'est fini.</p>
+  <div class="editbar">Mode modification : change les heures et les textes, supprime ✕ ou ajoute une tâche. Puis appuie sur « Terminer la modification ».</div>
+  <div class="bar"><i id="fill"></i></div>
+  <div class="count" id="count"></div>
+  <div id="app"></div>
+  <div class="msg" id="msg">Bravo Yacine ! Tout est terminé 🎉</div>
+  <div class="btns">
+    <a class="btn main" id="send" target="_blank" rel="noopener" href="#">Envoyer à maman (WhatsApp)</a>
+    <button id="copy" type="button">Copier le résumé</button>
+    <button id="reset" type="button">Réinitialiser</button>
+  </div>
+  <div id="note"></div>
+</div>
+<script>
+/*DATA*/var DATA={"sections":[
+{"id":"s1","cls":"b1","title":"Bloc 1 · En arrivant","tasks":[
+{"id":"t1","time":"15h00","text":"Changer tes habits (5 min)"},
+{"id":"t2","time":"15h05","text":"Manger (20 min)"},
+{"id":"t3","time":"15h25","text":"Prière"},
+{"id":"t4","time":"15h35","text":"Pause (10 min)","pause":1}]},
+{"id":"s2","cls":"b2","title":"Bloc 2 · La lessive","tasks":[
+{"id":"t5","time":"15h45","text":"Mettre le linge dans la machine et la démarrer (5 min)"},
+{"id":"t7","time":"15h50","text":"Pause (10 min)","pause":1}]},
+{"id":"s3","cls":"b3","title":"Bloc 3 · Cuisine et rez-de-chaussée","tasks":[
+{"id":"t6","time":"16h00","text":"Remplir le lave-vaisselle (cuisine du bas) et le démarrer (10 min)"},
+{"id":"t8","time":"16h10","text":"Ranger la cuisine : table et plan de travail (10 min)"},
+{"id":"t9","time":"16h20","text":"Nettoyer l'étage du bas avec de l'eau (30 min)"},
+{"id":"t10","time":"16h50","text":"Pause (10 min)","pause":1}]},
+{"id":"s4","cls":"b4","title":"Bloc 4 · Linge et chambre","tasks":[
+{"id":"t11","time":"17h00","text":"Plier le linge propre (2 machines, 15 min)"},
+{"id":"t12","time":"17h15","text":"Ranger ta chambre (10 min)"},
+{"id":"t13","time":"17h25","text":"Passer l'aspirateur dans ta chambre (10 min)"}]},
+{"id":"s5","cls":"b5","title":"Le soir · La récompense","tasks":[
+{"id":"t14","time":"Dès 17h40","text":"Se reposer"},
+{"id":"t15","time":"Plus tard","text":"Jouer à la Nintendo 20 minutes"},
+{"id":"t16","time":"Avant 21h30","text":"Lire 20 minutes avant d'aller au lit"}]}
+]};/*END*/
+(function(){
+  var editing=false;
+  var key='yacine-plan-v2-'+new Date().toISOString().slice(0,10);
+  var checked={};
+  try{checked=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+  var app=document.getElementById('app');
+  function persist(){try{localStorage.setItem(key,JSON.stringify(checked))}catch(e){}}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+  function all(){var a=[];DATA.sections.forEach(function(s){s.tasks.forEach(function(t){a.push(t)})});return a}
+  function render(){
+    document.body.classList.toggle('editing',editing);
+    var h='';
+    DATA.sections.forEach(function(s){
+      h+='<section class="'+s.cls+'" data-s="'+s.id+'">';
+      h+=editing?'<input class="e eh" data-f="title" value="'+esc(s.title)+'">':'<h2>'+esc(s.title)+'</h2>';
+      s.tasks.forEach(function(t){
+        if(editing){
+          h+='<div class="row '+(t.pause?'pause':'')+'" data-t="'+t.id+'"><input class="e et" data-f="time" value="'+esc(t.time)+'"><input class="e ex" data-f="text" value="'+esc(t.text)+'"><button class="del" data-del="'+t.id+'" type="button">✕</button></div>';
+        }else{
+          h+='<label class="row '+(t.pause?'pause ':'')+(checked[t.id]?'done':'')+'"><input type="checkbox" data-c="'+t.id+'"'+(checked[t.id]?' checked':'')+'><span class="t">'+esc(t.time)+'</span><span class="x">'+esc(t.text)+'</span></label>';
+        }
+      });
+      if(editing)h+='<button class="add" data-add="'+s.id+'" type="button">+ Ajouter une tâche</button>';
+      h+='</section>';
+    });
+    app.innerHTML=h;
+    update();
+  }
+  function update(){
+    var a=all(),n=a.filter(function(t){return checked[t.id]}).length;
+    document.getElementById('fill').style.width=(a.length?n/a.length*100:0)+'%';
+    document.getElementById('count').textContent=n+' sur '+a.length+' terminées';
+    document.getElementById('msg').style.display=(a.length&&n===a.length)?'block':'none';
+    document.getElementById('send').href='https://wa.me/?text='+encodeURIComponent(summary());
+  }
+  function summary(){
+    var a=all(),done=a.filter(function(t){return checked[t.id]}),todo=a.filter(function(t){return !checked[t.id]});
+    var s='Yacine a terminé '+done.length+' tâches sur '+a.length+'.\n';
+    if(done.length){s+='\n✅ Fait :\n'+done.map(function(t){return '• '+t.text}).join('\n')+'\n'}
+    if(todo.length){s+='\n⬜ Reste à faire :\n'+todo.map(function(t){return '• '+t.text}).join('\n')}
+    return s;
+  }
+  function note(m){document.getElementById('note').textContent=m}
+  app.addEventListener('change',function(e){
+    var id=e.target.getAttribute('data-c');
+    if(id){checked[id]=e.target.checked?1:0;persist();e.target.closest('label').classList.toggle('done',e.target.checked);update()}
+  });
+  app.addEventListener('input',function(e){
+    var f=e.target.getAttribute('data-f');if(!f)return;
+    var sec=e.target.closest('section').getAttribute('data-s');
+    var S=DATA.sections.filter(function(s){return s.id===sec})[0];
+    if(f==='title'){S.title=e.target.value;return}
+    var tid=e.target.closest('.row').getAttribute('data-t');
+    var T=S.tasks.filter(function(t){return t.id===tid})[0];T[f]=e.target.value;
+  });
+  app.addEventListener('click',function(e){
+    var d=e.target.getAttribute('data-del'),a=e.target.getAttribute('data-add');
+    if(d){DATA.sections.forEach(function(s){s.tasks=s.tasks.filter(function(t){return t.id!==d})});render()}
+    if(a){var S=DATA.sections.filter(function(s){return s.id===a})[0];S.tasks.push({id:'n'+Date.now(),time:'',text:'Nouvelle tâche'});render()}
+  });
+  document.getElementById('reset').addEventListener('click',function(){checked={};persist();render()});
+  document.getElementById('copy').addEventListener('click',function(){
+    var s=summary();
+    try{navigator.clipboard.writeText(s).then(function(){note('Résumé copié.')},function(){note(s)})}catch(e){note(s)}
+  });
+  render();
+})();
+</script>
+</body>
+</html>
